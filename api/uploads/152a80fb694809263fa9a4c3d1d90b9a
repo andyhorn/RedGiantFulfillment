@@ -1,0 +1,9 @@
+# Red Giant LLC. Roaming for Volume licensing
+# NOTE this is a generated/signed file; do not edit.
+
+HOST dockerrlm ether=1234567890AB 5053
+ISV redgiant 
+LICENSE redgiant rlm_roam 1.0 permanent uncounted hostid=ANY
+  max_roam=30 _ck=001e2f88fe sig="302E0215009048259DF238564AF583E7AF6
+  E70F61D7A8C92B2021500BE9A06E7507D7EFB9273D8A44356DD94CEAB5EC8"
+

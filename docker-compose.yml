@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment: 
+      PORT: "5000"
+    ports:
+      - "5000:5000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - /usr/bin/docker:/usr/bin/docker
+      - ./api:/usr/src/app
+      - ./rlm:/usr/src/rlm
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./web
+      dockerfile: Dockerfile.dev
+    environment:
+      VUE_APP_BACKEND_URL: http://localhost:5000
+    volumes:
+      - ./web:/app
+    ports:
+      - "80:8080"
+    depends_on:
+      - backend

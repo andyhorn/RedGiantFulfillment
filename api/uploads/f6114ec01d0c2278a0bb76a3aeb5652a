@@ -1,0 +1,163 @@
+# Red Giant LLC. Enterprise License
+# NOTE this is a generated/signed file; do not edit.
+
+# license uuid: 9e722617-85ae-496e-ba84-6935a9807b17
+
+# hostname/ip - RLM license server must be run from here:
+HOST dockerrlm ether=1234567890AB 5053
+ISV redgiant
+
+# ========= Trapcode Suite ========= 
+
+# 5-seat license for Trapcode Suite
+LICENSE redgiant trapcodesuite 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Trapcode Suite" _ck=a5da878234 sig="
+  302C0214325C00A1A9C1961C4EC36F134373F6BF7D230C62021407D8C0C5E729323
+  8F6CE8D9775667715C39AAC44"
+# # # # #
+
+
+# ========= Trapcode Suite ========= 
+
+# 5-seat license for Trapcode Suite
+LICENSE redgiant trapcodesuite-ro 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Trapcode Suite" _ck=b3da875634 sig="
+  302D02145B3DF2A9D234C9A31BCD7FC3C09649ADB0809047021500AC8AA2ADCD298
+  24F0B2EC6627B86F827324A8EB6"
+# # # # #
+
+
+# ========= Magic Bullet Suite ========= 
+
+# 5-seat license for Magic Bullet Suite
+LICENSE redgiant magicbulletsuite 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Magic Bullet Suite" _ck=dcda87c290
+  sig="302C02142C45E7F1B5595BC462ECE0ACF1A2626C23F2DF9F021436E686366A
+  86339DB68BCC00159C059416959566"
+# # # # #
+
+
+# ========= Magic Bullet Suite ========= 
+
+# 5-seat license for Magic Bullet Suite
+LICENSE redgiant magicbulletsuite-ro 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Magic Bullet Suite" _ck=eada872f92
+  sig="302E02150093CB8C8DA1B2F4DD5A36B54D40A423FD45C7668B021500A37A9E
+  608989A279E7330D5B8BC15AC352521CE3"
+# # # # #
+
+
+# ========= Shooter Suite ========= 
+
+# 5-seat license for Shooter Suite
+LICENSE redgiant shootersuite 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Shooter Suite" _ck=57da87b436 sig="3
+  02C02147EEBEAEA73E308A0C9623EBB80B079668F0EE14F02142999959BDFC65A77
+  D7E01BBFCFA7834FC76FEB97"
+# # # # #
+
+
+# ========= Shooter Suite ========= 
+
+# 5-seat license for Shooter Suite
+LICENSE redgiant shootersuite-ro 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Shooter Suite" _ck=65da87760c sig="3
+  02E021500BDA8EA2DFD08D5839C08B4EED31C0725B200CC25021500AE106714EACE
+  9970A2EC27F1287A5083793AA0E6"
+# # # # #
+
+
+# ========= VFX Suite ========= 
+
+# 5-seat license for VFX Suite
+LICENSE redgiant vfxsuite 999.9 19-mar-2021 5 share=uh min_timeout=600
+  start=19-mar-2020 platforms=x64_m,x64_w issued=19-mar-2020 
+  _line_item="VFX Suite" _ck=a7da87c160 sig="302D021500A9E5972CCAC4C7
+  7920CE3B9F007D172CF3B79BCA02143933CAE26EC846F15CF49C152EAEBA6BD434A
+  776"
+# # # # #
+
+
+# ========= VFX Suite ========= 
+
+# 5-seat license for VFX Suite
+LICENSE redgiant vfxsuite-ro 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="VFX Suite" _ck=b5da879b66 sig="302C0
+  21472588F7B3AD37214BB139467DD49A5216A2BC7DD02144FABC77E4EB22E6E09AC
+  B3857301636C4D396CEB"
+# # # # #
+
+
+# ========= Keying Suite ========= 
+
+# 5-seat license for Keying Suite
+LICENSE redgiant keyingsuite 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Keying Suite" _ck=dada87aebf sig="30
+  2D02147A20D0705474DCFA8E1A9737AFA859808219311F0215008D089E68040A21D
+  BD0410712F9088F0F5C869BC1"
+# # # # #
+
+
+# ========= Keying Suite ========= 
+
+# 5-seat license for Keying Suite
+LICENSE redgiant keyingsuite-ro 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Keying Suite" _ck=e8da87723a sig="30
+  2C02147E217ED05EB0336740DDE8238C2BB26E0171C9630214398873FBC6134E487
+  8769488D8D490847C29CEAD"
+# # # # #
+
+
+# ========= Effects Suite ========= 
+
+# 5-seat license for Effects Suite
+LICENSE redgiant effectssuite 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Effects Suite" _ck=33da878e37 sig="3
+  02D0214492AF0E5BC80DD4140BCFC593D9DD906319477E10215009468BE4E84E835
+  44757964B9A9B81F55B131DEBD"
+# # # # #
+
+
+# ========= Effects Suite ========= 
+
+# 5-seat license for Effects Suite
+LICENSE redgiant effectssuite-ro 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Effects Suite" _ck=41da87cb5e sig="3
+  02D02150086E870CB4002CD217A46887889D0B3E08C0402DF0214112E79018D9002
+  6DA61E98F13C0CAAA4394A85C0"
+# # # # #
+
+
+# ========= Universe Plugins ========= 
+
+# 5-seat license for Universe Plugins
+LICENSE redgiant universesuite 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Universe Plugins" _ck=c4da872e62
+  sig="302C021465447F1D28D3C323B10EC92E879A9610E65B255D021415ECB3E0EA
+  E2DE19D07591006EAFDD1361B3739B"
+# # # # #
+
+
+# ========= Universe Plugins ========= 
+
+# 5-seat license for Universe Plugins
+LICENSE redgiant universesuite-ro 999.9 19-mar-2021 5 share=uh
+  min_timeout=600 start=19-mar-2020 platforms=x64_m,x64_w
+  issued=19-mar-2020 _line_item="Universe Plugins" _ck=d2da878739
+  sig="302C0214661390A0333AE4F7E0AF94F797A6C11212D48E8D0214522D25B069
+  84377C174E122B8A7AB9DDA947398E"
+# # # # #
+
+
