@@ -34,7 +34,7 @@
         ></b-form-file>
       </b-form-group>
       <div class="d-flex align-items-center">
-        <b-button :class="{ 'disabled': working }" variant="outline-success" type="submit">Submit</b-button>
+        <b-button :disabled="working" variant="outline-success" type="submit">Submit</b-button>
         <b-icon-gear class="mx-2" v-if="working" animation="spin" font-scale="2"></b-icon-gear>
       </div>
     </b-form>

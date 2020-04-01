@@ -1,6 +1,6 @@
 <template>
   <div class="mt-5 text-left">
-    <table v-if="containers.length" class="table mt-1">
+    <table v-if="containers.length" class="table">
       <thead>
         <tr>
           <th>ID</th>

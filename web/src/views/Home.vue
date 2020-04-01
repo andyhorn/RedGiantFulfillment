@@ -1,9 +1,9 @@
 <template>
-  <div class="home container">
+  <div class="container">
     <p>Connected to API: {{ connected }}</p>
-    <div class="text-left d-flex flex-row align-items-begin p-0">
-      <h3 class="d-inline p-0 mr-2">Containers</h3>
-      <b-button squared size="sm" class="m-0" variant="outline-info" @click="getContainers">Refresh</b-button>
+    <div class="text-left p-0">
+      <h3 class="mb-0">Containers</h3>
+      <a href="#" @click="getContainers"><span style="font-size: 0.8rem;">Refresh</span></a>
     </div>
       <ContainerTable :containers="containers"></ContainerTable>
   </div>
