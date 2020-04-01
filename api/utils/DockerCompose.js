@@ -1,6 +1,6 @@
 const FilePaths = require("../contracts/FilePaths");
 const FileHandler = require("./FileHandler");
-const PortManager = require("./PortManager");
+const ServiceFactory = require('./ServiceFactory');
 const path = require("path");
 const yaml = require("yaml");
 const { exec } = require("child_process");
@@ -47,7 +47,8 @@ class DockerCompose {
 
     // If the service does not exist, create a new service object
     console.log("Adding new service");
-    let service = await getService(name);
+    // let service = await getService(name);
+    let service = await ServiceFactory.create(name);
 
     // Add the new service to the configuration
     this.services.push(service);
@@ -180,31 +181,6 @@ class DockerCompose {
 
     return -1;
   }
-}
-
-async function getService(name) {
-  let newService = {};
-
-  let ports = await PortManager.getPorts(3);
-  let servicePorts = [
-    `${ports[0]}:5053`,
-    `${ports[1]}:5054`,
-    `${ports[2]}:${ports[2]}`
-  ];
-
-  newService.container_name = name;
-  newService.ports = servicePorts;
-  newService.hostname = name;
-  newService.mac_address = "12:34:56:78:90:AB";
-  newService.image = "andyhorn/redgiant-rlm:stable";
-  newService.healthcheck = {
-    test: `curl -f localhost:5054 || exit 1`,
-    interval: "2m",
-    timeout: "10s",
-    retries: 3
-  };
-  newService.restart = "unless-stopped";
-  return newService;
 }
 
 module.exports = DockerCompose;
