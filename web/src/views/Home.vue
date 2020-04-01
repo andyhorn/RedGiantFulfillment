@@ -22,8 +22,7 @@ export default {
     return {
       response: null,
       containers: [],
-      connected: false,
-      listening: false
+      connected: false
     };
   },
   watch: {
@@ -60,10 +59,9 @@ export default {
       });
     },
     listen() {
-      if (this.listening) return;
-
       console.log("initializing bus listener");
       let vm = this;
+      bus.$off("remove");
       bus.$on("remove", (id) => {
         console.log("remove event caught, sending delete request");
         this.$http.delete(`api/docker/${id}`)
