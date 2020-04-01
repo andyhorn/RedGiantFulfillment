@@ -38,7 +38,7 @@ app.post(
     let name = req.body.name;
     let files = req.files.files;
 
-    console.log(`POST received for new service: ${name}`);
+    console.log(`POST received for service: ${name}`);
     console.log(files);
 
     let success = await require('../../utils/StartService')(name, files);
@@ -72,11 +72,17 @@ app.delete("/:id", async (req, res) => {
         console.log("Error: Unable to stop container");
         return res.sendStatus(500);
     }
+
+    let deleted = await DockerManager.deleteImageAsync(name);
+    if (!deleted) {
+      console.log("Error: Unable to delete image");
+      return res.sendStatus(500);
+    }
     console.log("Stopped!");
 
     console.log("Removing from configuration...");
     compose.removeService(name);
-    compose.write();
+    // compose.write();
     console.log("Done!");
 
     console.log("Deleting license files...");

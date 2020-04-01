@@ -4,29 +4,14 @@ const FilePaths = require('../contracts/FilePaths');
 const FileHandler = require('./FileHandler');
 const path = require('path');
 const fs = require('fs');
-const replace = require('replace');
 
 const compose = new DockerCompose();
 
 async function addService(name) {
     console.log("Adding service...");
     try {
-        await compose.addService(name);
-        compose.write();
-    }
-    catch (e) {
-        console.log(e);
-        return false;
-    }
-
-    return true;
-}
-
-async function build(name) {
-    console.log("Building container...");
-    try {
-        await compose.build(name);
-        console.log("Done!");
+        let added = await compose.addService(name);
+        // if (added) compose.write();
     }
     catch (e) {
         console.log(e);
@@ -40,6 +25,10 @@ async function copyFiles(name) {
     console.log("Copying license files into container...");
 
     let fileDir = path.join(FilePaths.licenseStore, name);
+
+    let files = fs.readdirSync(fileDir);
+    console.log("Copying files:");
+    console.log(files);
 
     let copied = false;
     try {
@@ -72,14 +61,6 @@ function updateIsvPort(file, port) {
     fileData = fileData.replace(/ISV redgiant/g, isvLine);
 
     fs.writeFileSync(file, fileData);
-
-    // let options = {
-    //     regex: 'ISV redgiant',
-    //     replacement: isvLine,
-    //     paths: file
-    // };
-
-    // replace(options);
 }
 
 async function launch(name) {

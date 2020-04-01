@@ -110,6 +110,23 @@ async function stopContainerAsync(id) {
     });
 }
 
+async function deleteImageAsync(name) {
+    let command = `docker rmi -f ${name}`;
+
+    return new Promise((resolve, reject) => {
+        exec(command, (err, stdout) => {
+            if (err) {
+                console.log("Error removing image:");
+                console.log(err);
+                return resolve(false);
+            }
+
+            console.log(stdout);
+            return resolve(true);
+        })
+    })
+}
+
 module.exports = { 
     getContainersAsync, 
     getByIdAsync, 
@@ -117,5 +134,6 @@ module.exports = {
     getNameFromIdAsync, 
     existsAsync,
     copyFilesTo,
-    getByNameAsync
+    getByNameAsync,
+    deleteImageAsync
 };

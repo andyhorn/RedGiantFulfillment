@@ -10,11 +10,11 @@ const COMPOSE_FILE = path.join(FilePaths.appData, "docker-compose.yml");
 
 class DockerCompose {
   constructor() {
-    this.services = [];
-    this.init();
+    this.read();
   }
 
-  init() {
+  read() {
+    this.services = [];
     const fileData = FileHandler.readData(COMPOSE_FILE);
     const yamlData = yaml.parse(fileData);
 
@@ -28,7 +28,6 @@ class DockerCompose {
 
     for (let key of Object.keys(yamlData.services)) {
       let service = yamlData.services[key];
-      service.name = key;
       this.services.push(service);
     }
 
@@ -37,69 +36,88 @@ class DockerCompose {
   }
 
   async addService(name) {
-    if (this.services === undefined) {
-      this.services = [];
+    // Read the config file
+    this.read();
+
+    // If the service already exists, do not create a new one
+    if (this.serviceExists(name)) {
+      console.log("Service already configured");
+      return false;
     }
 
+    // If the service does not exist, create a new service object
+    console.log("Adding new service");
     let service = await getService(name);
+
+    // Add the new service to the configuration
     this.services.push(service);
-  }
 
-  async restart(name) {
-    let command = `docker-compose -f ${COMPOSE_FILE} restart ${name}`;
+    // Write the configuration file
+    this.write();
 
-    return new Promise((resolve, reject) => {
-      exec(command, (err, stdout) => {
-        if (err) {
-          console.log(err);
-          return reject();
-        }
-
-        return resolve(stdout);
-      });
-    });
+    // Return 'success'
+    return true;
   }
 
   removeService(name) {
-    if (this.services === undefined || this.services === null) {
+    // Read the configuration file
+    this.read();
+    console.log(`Removing service ${name}`);
+
+    // If the service does not exist, return
+    if (!this.serviceExists(name)) {
+      console.log("Service not found in configuration");
       return;
     }
+    console.log("Service found in configuration, removing...");
 
-    let index = this.services.indexOf(x => x.name === name);
-
-    if (index === -1) {
-      return;
+    // If there is only one service, reset the array
+    if (this.services.length === 1) {
+      this.services = [];
+    } else {
+      // If there is more than one service, find the index
+      let index = this.indexOf(name);
+      this.services = this.services.splice(index, 1);
     }
 
-    this.services.splice(index, 1);
+    console.log("Removed! Configuration now:");
+    console.log(this.services);
+
+    // Write to the configuration file
+    this.write();
   }
 
   up(name) {
     let command = `docker-compose -f ${COMPOSE_FILE} up -d --build ${name}`;
 
+    console.log(`Building and starting container ${name}`);
     return new Promise((resolve, reject) => {
       exec(command, (err, stdout, stderr) => {
         if (err) {
-          return reject(err);
+          console.log("Error building/starting container:");
+          console.log(err);
+          return resolve(false);
         }
 
-        return resolve(stdout);
+        return resolve(true);
       });
     });
   }
 
-  build(name) {
-    let command = `docker-compose -f ${COMPOSE_FILE} build ${name}`;
+  restart(name) {
+    let command = `docker-compose -f ${COMPOSE_FILE} restart ${name}`;
 
     return new Promise((resolve, reject) => {
       exec(command, (err, stdout) => {
         if (err) {
-          return reject(err);
+          console.log("Unable to restart container");
+          console.log(err);
+          return resolve(false);
         }
 
-        return resolve(stdout);
-      });
-    });
+        return resolve(true);
+      })
+    })
   }
 
   getIsvPortFor(name) {
@@ -124,17 +142,16 @@ class DockerCompose {
   write() {
     let data = {
       version: COMPOSE_VERSION,
-      services: {}
+      services: null
     };
 
-    if (this.services === undefined) {
-      return;
-    }
+    if (this.services.length !== 0) {
+      data.services = {};
 
-    for (let service of this.services) {
-      let name = service.name;
-      delete service.name;
-      data.services[name] = service;
+      for (let service of this.services) {
+        let name = service.container_name;
+        data.services[name] = service;
+      }
     }
 
     let fileData = yaml.stringify(data);
@@ -145,6 +162,23 @@ class DockerCompose {
       fileData,
       path.join(FilePaths.appData, "docker-compose.yml")
     );
+  }
+
+  serviceExists(name) {
+    if ((this.services === null || this.services === undefined) || this.services.length === 0) {
+      return false;
+    }
+
+    let service = this.services.find(s => s.container_name === name);
+    return service !== undefined;
+  }
+
+  indexOf(name) {
+    if (this.serviceExists(name)) {
+      return this.services.indexOf(s => s.container_name === name);
+    }
+
+    return -1;
   }
 }
 
@@ -158,15 +192,11 @@ async function getService(name) {
     `${ports[2]}:${ports[2]}`
   ];
 
-  newService.name = name;
   newService.container_name = name;
   newService.ports = servicePorts;
   newService.hostname = name;
   newService.mac_address = "12:34:56:78:90:AB";
   newService.image = "andyhorn/redgiant-rlm:stable";
-  newService.volumes = [
-    `/usr/src/rlm/licenses/${name}:/usr/share/rlm/licenses`
-  ];
   newService.healthcheck = {
     test: `curl -f localhost:5054 || exit 1`,
     interval: "2m",

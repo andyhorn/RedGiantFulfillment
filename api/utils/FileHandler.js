@@ -10,6 +10,9 @@ function processLicenses(fileList, name) {
   let destinationPath = getDestinationPath(name);
   console.log(`Saving licenses to ${destinationPath}`);
 
+  // Remove any existing license files
+  deleteLicenseFiles(name);
+
   // Ensure the license directory is present
   makeLicenseDirectory(name);
   console.log("License directory present");
@@ -36,8 +39,9 @@ function readData(filename) {
 
 function deleteLicenseFiles(name) {
   let dirPath = path.join(FilePaths.licenseStore, name);
+  console.log(`Deleting licenses from ${dirPath}`);
 
-  fs.rmdirSync(dirPath, { recursive: true });
+  if (fs.existsSync(dirPath)) fs.rmdirSync(dirPath, { recursive: true });
 }
 
 function resolveFullPath(fileList) {
