@@ -22,12 +22,11 @@ async function existsAsync(id) {
 }
 
 async function getNameFromIdAsync(id) {
-    let container = await getByIdAsync(id);
-
-    if (container === null || container === undefined) {
+    if (await !existsAsync(id)) {
         return null;
     }
 
+    let container = await getByIdAsync(id);
     return container.Labels["com.docker.compose.service"];
 }
 

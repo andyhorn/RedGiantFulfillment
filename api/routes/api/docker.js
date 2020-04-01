@@ -1,5 +1,4 @@
 const express = require("express");
-const Docker = require("dockerode");
 const FileHandler = require("../../utils/FileHandler");
 const DockerCompose = require("../../utils/DockerCompose");
 const DockerManager = require('../../utils/DockerManager');
@@ -82,7 +81,6 @@ app.delete("/:id", async (req, res) => {
 
     console.log("Removing from configuration...");
     compose.removeService(name);
-    // compose.write();
     console.log("Done!");
 
     console.log("Deleting license files...");

@@ -41,7 +41,7 @@ class DockerCompose {
     console.log(this);
   }
 
-  async addService(name) {
+  async addServiceAsync(name) {
     // Read the config file
     this.read();
 
@@ -92,7 +92,7 @@ class DockerCompose {
     this.write();
   }
 
-  up(name) {
+  upAsync(name) {
     let command = `docker-compose -f ${COMPOSE_FILE} up -d --build ${name}`;
 
     console.log(`Building and starting container ${name}`);
@@ -110,7 +110,7 @@ class DockerCompose {
     });
   }
 
-  restart(name) {
+  restartAsync(name) {
     let command = `docker-compose -f ${COMPOSE_FILE} restart ${name}`;
 
     console.log(`Restarting container ${name}`);
