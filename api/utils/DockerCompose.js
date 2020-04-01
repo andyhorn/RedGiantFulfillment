@@ -14,24 +14,30 @@ class DockerCompose {
   }
 
   read() {
+    // Initialize a service array
     this.services = [];
+
+    // Read the file data
     const fileData = FileHandler.readData(COMPOSE_FILE);
+
+    // Parse the yaml file into a JSON object
     const yamlData = yaml.parse(fileData);
 
-    console.log("Initializing Compose Configuration.");
-    console.log("Services:");
-    console.log(yamlData.services);
+    console.log("Reading Compose Configuration...");
 
+    // If no services exist in configuration, reading is done
     if (yamlData.services === null) {
       return;
     }
 
+    // Read the services from the YAML file and store the services
+    // in the services array
     for (let key of Object.keys(yamlData.services)) {
       let service = yamlData.services[key];
       this.services.push(service);
     }
 
-    console.log("Initialized!");
+    console.log("Done!");
     console.log(this);
   }
 
@@ -80,9 +86,7 @@ class DockerCompose {
       let index = this.indexOf(name);
       this.services = this.services.splice(index, 1);
     }
-
-    console.log("Removed! Configuration now:");
-    console.log(this.services);
+    console.log("Done!");
 
     // Write to the configuration file
     this.write();
@@ -100,6 +104,7 @@ class DockerCompose {
           return resolve(false);
         }
 
+        console.log("Done!");
         return resolve(true);
       });
     });
@@ -108,6 +113,7 @@ class DockerCompose {
   restart(name) {
     let command = `docker-compose -f ${COMPOSE_FILE} restart ${name}`;
 
+    console.log(`Restarting container ${name}`);
     return new Promise((resolve, reject) => {
       exec(command, (err, stdout) => {
         if (err) {
@@ -116,26 +122,30 @@ class DockerCompose {
           return resolve(false);
         }
 
+        console.log("Done!");
         return resolve(true);
       })
     })
   }
 
   getIsvPortFor(name) {
+    // Read the configuration file
+    this.read();
     console.log(`Getting ISV port for ${name}`);
 
     if (this.services === null) {
       return null;
     }
 
-    console.log(this.services);
+    // Get the service object
+    let service = this.getService(name);
 
-    let service = this.services.find(s => s.container_name === name);
-    console.log("Service found:");
-    console.log(service);
-
+    // Get the ports from the service
     let ports = service.ports;
+
+    // Parse the ISV port
     let isvPort = ports[2].split(":")[0];
+    console.log(`Found ISV port: ${isvPort}`);
 
     return isvPort;
   }
@@ -180,6 +190,14 @@ class DockerCompose {
     }
 
     return -1;
+  }
+
+  getService(name) {
+    if (!this.serviceExists(name)) {
+      return null;
+    }
+
+    return this.services.find(c => c.container_name === name);
   }
 }
 
