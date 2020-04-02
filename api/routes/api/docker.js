@@ -24,8 +24,7 @@ app.get("/", async (req, res) => {
   catch (e) {
     console.log("Error retrieving list:");
     console.log(e);
-    res.statusCode = 500;
-    res.send(null);
+    res.sendStatus(500);
   }
 });
 

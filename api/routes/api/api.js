@@ -1,12 +1,14 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const dockerRoutes = require('./docker')
+const dockerRoutes = require("./docker");
+const authRoutes = require("./auth");
 
-router.get('/', (req, res) => {
-    res.send("Connected")
-})
+router.get("/", (req, res) => {
+  res.send("Connected");
+});
 
-router.use('/docker', dockerRoutes)
+router.use("/docker", dockerRoutes);
+router.use("/auth", authRoutes);
 
-module.exports = router
+module.exports = router;

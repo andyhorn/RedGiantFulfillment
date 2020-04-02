@@ -12,7 +12,7 @@ function getContainersAsync(all = false) {
             })
             .catch(err => {
                 console.log(err);
-                reject(err);
+                resolve(null);
             });
     });
 }
@@ -77,7 +77,7 @@ async function copyFilesTo(directory, name) {
         exec(command, (err, stdout) => {
             if (err) {
                 console.log(err);
-                return reject(err);
+                return resolve(false);
             }
 
             return resolve(true);
