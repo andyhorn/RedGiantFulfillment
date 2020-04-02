@@ -109,8 +109,8 @@ async function stopContainerAsync(id) {
     });
 }
 
-async function deleteImageAsync(name) {
-    let command = `docker rmi -f ${name}`;
+async function deleteImageAsync(id) {
+    let command = `docker rmi -f ${id}`;
 
     return new Promise((resolve, reject) => {
         exec(command, (err, stdout) => {

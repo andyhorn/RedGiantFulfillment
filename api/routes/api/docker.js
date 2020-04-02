@@ -34,7 +34,7 @@ app.post(
   upload.fields([{ name: "name" }, { name: "files" }]),
   async (req, res) => {
     console.log(req);
-    let name = req.body.name;
+    let name = req.body.name.toLowerCase();
     let files = req.files.files;
 
     console.log(`POST received for service: ${name}`);
@@ -72,7 +72,7 @@ app.delete("/:id", async (req, res) => {
         return res.sendStatus(500);
     }
 
-    let deleted = await DockerManager.deleteImageAsync(name);
+    let deleted = await DockerManager.deleteImageAsync(id);
     if (!deleted) {
       console.log("Error: Unable to delete image");
       return res.sendStatus(500);
