@@ -1,28 +1,38 @@
-const express = require('express')
-const router = express.Router()
-const jwt = require('jsonwebtoken')
-const userService = require('')
+const express = require("express");
+const router = express.Router();
+const userService = require("../../services/UserService");
 
-router.post('/login', (req, res) => {
-    let email = req.body.email;
-    let password = req.body.password;
+router.post("/login", async (req, res) => {
+  let email = req.body.email;
+  let password = req.body.password;
 
-    let data = { email, password };
+  let result = await userService.loginAsync(email, password);
 
-    res.send(JSON.stringify(data));
-})
+  if (result.err) {
+    res.status(result.status).send(result.err);
+  }
 
-router.post('/register', (req, res) => {
-    let email = req.body.email;
-    let password = req.body.password;
-    let name = req.body.name;
+  sendSuccess(res, result.token, result.user);
+  //   res.status(result.status).send({ auth: true, token: result.token, user: result.user });
+});
 
-    let data = { email, password, name };
+router.post("/register", async (req, res) => {
+  let email = req.body.email;
+  let password = req.body.password;
+  let name = req.body.name;
 
-    res.send(JSON.stringify(data));
-})
+  let result = await userService.registerAsync(name, email, password);
 
+  if (result.err) {
+    res.status(result.status).send(result.err);
+  }
 
+  sendSuccess(res, result.token, result.user);
+  // res.status(result.status).send({ auth: true, token: result.token, user: result.user });
+});
 
+function sendSuccess(res, token, user) {
+  res.status(200).send({ auth: true, token: token, user: user });
+}
 
-module.exports = router
+module.exports = router;
