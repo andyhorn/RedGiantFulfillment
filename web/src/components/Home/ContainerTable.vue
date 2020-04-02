@@ -7,8 +7,7 @@
           <th>Service Name</th>
           <th>State</th>
           <th>Status</th>
-          <th>Ports</th>
-          <th></th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>

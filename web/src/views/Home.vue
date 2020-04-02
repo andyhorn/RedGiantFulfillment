@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <p>Connected to API: {{ connected }}</p>
+    <p class="text-danger" v-if="!connected && !connecting">Unable to connect</p>
     <div class="text-left p-0">
       <h3 class="mb-0">Containers</h3>
       <a href="#" @click="getContainers"><span style="font-size: 0.8rem;">Refresh</span></a>
@@ -22,6 +22,7 @@ export default {
     return {
       response: null,
       containers: [],
+      connecting: true,
       connected: false
     };
   },
@@ -56,6 +57,10 @@ export default {
       })
       .catch(err => {
         console.log(err);
+        vm.connected = false;
+      })
+      .finally(() => {
+        vm.connecting = false;
       });
     },
     listen() {
@@ -73,6 +78,26 @@ export default {
             console.log(err);
           });
       });
+
+      bus.$off("license");
+      bus.$on("license", (port) => {
+        let data = `HOST ${window.location.hostname} ANY ${port}`;
+        let blob = new Blob([data], { type: "text" });
+        let url = window.URL.createObjectURL(blob);
+
+        let hiddenLink = document.createElement("a");
+        hiddenLink.href = url;
+        hiddenLink.setAttribute("download", "redgiant-client.primary.lic");
+        document.body.appendChild(hiddenLink);
+        hiddenLink.click();
+        hiddenLink.remove();
+      });
+
+      bus.$off("portal");
+      bus.$on("portal", (port) => {
+        let url = `http://${window.location.hostname}:${port}/home.asp`;
+        window.open(url, "_blank");
+      })
 
       this.listening = true;
     }

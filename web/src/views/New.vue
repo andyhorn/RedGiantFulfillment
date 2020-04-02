@@ -1,6 +1,6 @@
 <template>
   <div class="container text-left">
-    <h1>hello world!</h1>
+    <h2>Launch new server</h2>
     <b-form @submit="submit">
       <b-form-group
         id="name"
@@ -54,12 +54,7 @@ export default {
       files: [],
       name: null,
       working: false,
-      error: null,
-      headers: {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      }
+      error: null
     };
   },
   watch: {
@@ -112,5 +107,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

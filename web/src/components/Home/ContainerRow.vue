@@ -4,13 +4,12 @@
     <td>{{ serviceName }}</td>
     <td>{{ container.State }}</td>
     <td>{{ container.Status }}</td>
-    <td>
-      <ul class="list-unstyled">
-        <Port v-for="(port, index) in container.Ports" :key="port.PublicPort" :port="port" :isWeb="index == 2"></Port>
-      </ul>
-    </td>
-    <td class="text-center">
-      <b-button squared variant="danger" @click="remove">Remove</b-button>
+    <td class="d-flex flex-row justify-content-between">
+      <div>
+        <b-button class="mx-1" squared variant="success" @click="open">Open Portal</b-button>
+        <b-button class="mx-1" squared variant="primary" @click="license">Get License</b-button>
+      </div>
+      <b-button class="ml-2" squared variant="danger" @click="remove">Remove</b-button>
     </td>
   </tr>
 </template>
@@ -45,6 +44,14 @@ export default {
     },
     hover(isHovering) {
       this.hovering = isHovering;
+    },
+    license() {
+      let port = this.container.Ports.find(p => p.PrivatePort == "5053");
+      bus.$emit("license", port.PublicPort);
+    },
+    open() {
+      let port = this.container.Ports.find(p => p.PrivatePort == "5054");
+      bus.$emit("portal", port.PublicPort);
     }
   }
 };
