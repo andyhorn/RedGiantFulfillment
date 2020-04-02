@@ -1,44 +1,89 @@
-// const sqlite3 = require('sqlite3').verbose();
-const { Pool, Client } = require('pg');
-// const pool = new Pool();
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
 
-const CREATE_TABLE_SQL = `CREATE TABLE IF NOT EXISTS userAuth (
-    id integer PRIMARY KEY,
-    name text,
-    email text UNIQUE,
-    password text
-)`;
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD;
+const dbHost = process.env.DB_HOST;
+const dbDatabase = process.env.DB_DATABASE;
+const dbPort = process.env.DB_PORT;
 
-const SELECT_BY_EMAIL_SQL = 'SELECT * FROM userAuth WHERE email = ?';
+const url = `mongodb://${dbHost}:${dbPort}/${dbDatabase}`;
+console.log("MongoDB Connection String:");
+console.log(url);
 
-const INSERT_SQL = 'INSERT INTO userAuth (name, email, password) VALUES (?, ?, ?)';
+const UserSchema = new Schema({
+  id: ObjectId,
+  name: String,
+  email: String,
+  password: String
+});
 
 class Db {
-    constructor(file) {
-        // this.db = new sqlite3.Database(file);
-        this.db = new Pool();
-        this.createTable();
-    }
-
-    createTable() {
-        this.db.run(CREATE_TABLE_SQL);
-    }
-
-    selectByEmailAsync(email) {
-        return new Promise((resolve, reject) => {
-            this.db.get(SELECT_BY_EMAIL_SQL, [email], (err, row) => {
-                resolve({err, user: row});
-            });
+  constructor() {
+    this.user = mongoose.model("User", UserSchema);
+  }
+  openConnection() {
+    return new Promise((resolve, reject) => {
+      mongoose.Promise = global.Promise;
+      mongoose
+        .connect(url, {
+          useNewUrlParser: true
+        })
+        .then(() => {
+          console.log("Connected to database!");
+          resolve();
+        })
+        .catch(err => {
+          console.log("Error connecting to database:");
+          console.log(err);
+          reject();
         });
-    }
+    });
+  }
 
-    insertAsync(email, name, password) {
-        return new Promise((resolve, reject) => {
-            this.db.run(INSERT_SQL, [email, name, password], (err) => {
-                resolve(err);
-            });
-        });
+  async selectByEmailAsync(email) {
+    try {
+      await this.openConnection();
+    } catch (e) {
+      console.log("Unable to open database connection");
+      return false;
     }
+    return new Promise((resolve, reject) => {
+      this.user.findOne({ email: email }, function(err, res) {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve(res);
+      });
+    });
+  }
+
+  async insertAsync(name, email, password) {
+    console.log("Inserting user data:");
+    console.log(`Email: ${email}`);
+    console.log(`Name: ${name}`);
+    console.log(`Password: ${password}`);
+
+    try {
+      await this.openConnection();
+    } catch (e) {
+      console.log("Unable to open database connection");
+      return false;
+    }
+    return new Promise((resolve, reject) => {
+      this.user.create({ email, name, password }, (err, res) => {
+        if (err) {
+          console.log("Error creating user:");
+          console.log(err);
+          return reject(err);
+        }
+
+        return resolve(true);
+      });
+    });
+  }
 }
 
 module.exports = Db;

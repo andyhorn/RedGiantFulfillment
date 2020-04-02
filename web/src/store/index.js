@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
+// import http from "../main";
+import http from "../../axios";
 import axios from "axios";
 
 Vue.use(Vuex);
@@ -33,7 +35,7 @@ export default new Vuex.Store({
         login({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request');
-                axios.post('/auth/login', { data: user })
+                http({ url: '/auth/login', data: user, method: 'POST' })
                     .then(response => {
                         const token = response.data.token;
                         const user = response.data.user;
@@ -53,9 +55,11 @@ export default new Vuex.Store({
             });
         },
         register({ commit }, user) {
+            console.log("Registering with user:");
+            console.log(user);
             return new Promise((resolve, reject) => {
                 commit('auth_request');
-                axios.post('/api/auth/register', { data: user })
+                http({ url: '/api/auth/register', data: user, method: 'POST' })
                     .then(response => {
                         const token = response.data.token;
                         const user = response.data.user;
