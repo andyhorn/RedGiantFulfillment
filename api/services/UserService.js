@@ -1,6 +1,6 @@
 const Db = require("../database/Db");
-const databaseFile = require("../contracts/FilePaths").databaseFile;
-const database = new Db(databaseFile);
+// const databaseFile = require("../contracts/FilePaths").databaseFile;
+// const database = new Db(databaseFile);
 const bcrypt = require("bcryptjs");
 const config = require("../contracts/config");
 
@@ -17,10 +17,10 @@ async function registerAsync(name, email, password) {
 
   let hash = bcrypt.hashSync(password, SALT_ROUNDS);
 
-  let err = await database.insertAsync(name, email, hash);
+  let insertErr = await database.insertAsync(name, email, hash);
 
-  if (err) {
-    result.err = err;
+  if (insertErr) {
+    result.err = insertErr;
     result.status = 500;
     return result;
   }

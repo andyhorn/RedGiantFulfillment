@@ -1,4 +1,6 @@
-const sqlite3 = require('sqlite3')
+// const sqlite3 = require('sqlite3').verbose();
+const { Pool, Client } = require('pg');
+// const pool = new Pool();
 
 const CREATE_TABLE_SQL = `CREATE TABLE IF NOT EXISTS userAuth (
     id integer PRIMARY KEY,
@@ -13,7 +15,8 @@ const INSERT_SQL = 'INSERT INTO userAuth (name, email, password) VALUES (?, ?, ?
 
 class Db {
     constructor(file) {
-        this.db = new sqlite3.Database(file);
+        // this.db = new sqlite3.Database(file);
+        this.db = new Pool();
         this.createTable();
     }
 

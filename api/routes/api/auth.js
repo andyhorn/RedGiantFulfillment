@@ -13,7 +13,6 @@ router.post("/login", async (req, res) => {
   }
 
   sendSuccess(res, result.token, result.user);
-  //   res.status(result.status).send({ auth: true, token: result.token, user: result.user });
 });
 
 router.post("/register", async (req, res) => {
@@ -28,7 +27,6 @@ router.post("/register", async (req, res) => {
   }
 
   sendSuccess(res, result.token, result.user);
-  // res.status(result.status).send({ auth: true, token: result.token, user: result.user });
 });
 
 function sendSuccess(res, token, user) {
