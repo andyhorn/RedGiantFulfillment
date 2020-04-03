@@ -5,6 +5,7 @@ services:
       context: ./web
       dockerfile: Dockerfile.prod
     volumes:
+      -
     environment: 
       NODE_ENV: "production"
     ports:
