@@ -11,6 +11,8 @@
 </template>
 
 <script>
+const bus = require('./bus');
+
 export default {
   computed: {
     isLoggedIn() {

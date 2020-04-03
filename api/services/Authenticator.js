@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const config = require('../contracts/config');
 
 function isAuthenticated(req, res, next) {
-    // console.log(req);
     if (!req.headers.authorization) {
         return res.sendStatus(401);
     }

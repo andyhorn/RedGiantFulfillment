@@ -90,6 +90,7 @@ export default {
           this.$router.push({ name: "Home" });
         })
         .catch(err => {
+          
           console.log(err);
           vm.error = err;
         })

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 // import http from "../main";
-const { http } = require("../../axios");
+import http from "../../axios";
 // import axios from "axios";
 
 Vue.use(Vuex);
@@ -30,7 +30,6 @@ export default new Vuex.Store({
             state.status = '';
             state.token = '';
             state.user = undefined;
-            state.error = '';
         }
     },
     actions: {

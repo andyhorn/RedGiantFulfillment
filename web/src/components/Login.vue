@@ -13,6 +13,7 @@
                 <button class="btn btn-success" type="submit">Login</button>
             </div>
         </form>
+        <p v-if="error.length" class="text-danger">{{ error }}</p>
     </div>
 </template>
 
@@ -22,8 +23,12 @@ export default {
     data() {
         return {
             email: "",
-            password: ""
+            password: "",
+            error: ""
         }
+    },
+    mounted() {
+        this.error = this.$store.state.error;
     },
     methods: {
         login() {
