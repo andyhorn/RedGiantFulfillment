@@ -5,10 +5,10 @@ services:
       context: ./web
       dockerfile: Dockerfile.prod
       volumes:
-      environment: 
-        NODE_ENV: "production"
-      ports:
-        - "80:80"
+    environment: 
+      NODE_ENV: "production"
+    ports:
+      - "80:80"
   backend:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
