@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 // import http from "../main";
-import http from "../../axios";
-import axios from "axios";
+const { http } = require("../../axios");
+// import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -42,7 +42,7 @@ export default new Vuex.Store({
 
                         localStorage.setItem('token', token);
 
-                        axios.defaults.headers.common['Authorization'] = token;
+                        http.defaults.headers.common['Authorization'] = token;
 
                         commit('auth_success', token, user);
                         resolve(response);
@@ -65,7 +65,7 @@ export default new Vuex.Store({
                         const user = response.data.user;
 
                         localStorage.setItem('token', token);
-                        axios.defaults.headers.common['Authorization'] = token;
+                        http.defaults.headers.common['Authorization'] = token;
 
                         commit('auth_success', token, user);
                         resolve(response);
@@ -81,7 +81,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 commit('logout');
                 localStorage.removeItem('token');
-                delete axios.defaults.headers.common['Authorization'];
+                delete http.defaults.headers.common['Authorization'];
                 resolve();
             });
         }

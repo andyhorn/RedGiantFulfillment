@@ -11,14 +11,23 @@ const upload = multer({
 });
 const app = express.Router();
 
+function filterAppContainers(containers) {
+  const appContainers = ['frontend', 'backend', 'dbserver'];
+  return containers.filter(c => {
+    let label = c.Labels["com.docker.compose.service"];
+    return !appContainers.includes(label);
+  })
+}
+
 app.get("/", async (req, res) => {
   console.log("Retrieving list of running containers");
   try {
     let containers = await DockerManager.getContainersAsync();
-    containers = containers.filter(c => {
-        let label = c.Labels["com.docker.compose.service"];
-        return label !== "frontend" && label !== "backend";
-    });
+    containers = filterAppContainers(containers);
+    // containers = containers.filter(c => {
+    //     let label = c.Labels["com.docker.compose.service"];
+    //     return label !== "frontend" && label !== "backend";
+    // });
     res.send(JSON.stringify(containers));
   }
   catch (e) {

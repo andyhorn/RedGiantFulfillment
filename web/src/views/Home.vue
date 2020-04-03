@@ -12,7 +12,7 @@
 <script>
 import ContainerTable from "../components/Home/ContainerTable";
 import bus from "../bus";
-import http from "../../axios";
+// import http from "../../axios";
 
 export default {
   name: "Home",
@@ -42,7 +42,7 @@ export default {
     getContainers() {
       let url = "api/docker";
       let vm = this;
-      http.get(url).then(response => {
+      this.$http.get(url).then(response => {
         vm.containers = response.data;
       })
       .catch(err => {
@@ -51,7 +51,7 @@ export default {
     },
     testConnection() {
       let vm = this;
-      http.get("api").then(response => {
+      this.$http.get("api").then(response => {
         if (response.data === "Connected") {
           vm.connected = true;
         }
@@ -70,7 +70,7 @@ export default {
       bus.$off("remove");
       bus.$on("remove", (id) => {
         console.log("remove event caught, sending delete request");
-        http.delete(`api/docker/${id}`)
+        this.$http.delete(`api/docker/${id}`)
           .then(response => {
             console.log(response);
             vm.getContainers();

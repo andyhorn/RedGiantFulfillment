@@ -16,4 +16,4 @@ if (process.env.NODE_ENV !== "production") {
     http = axios;
   }
 
-export default http;
+module.exports = { http };
