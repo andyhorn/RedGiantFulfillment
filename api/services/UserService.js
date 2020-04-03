@@ -34,6 +34,8 @@ async function registerAsync(name, email, password) {
     return result;
   }
 
+  user.password = undefined;
+
   console.log("Getting token for user...");
   let token = getToken(user);
   console.log(token);
@@ -61,12 +63,14 @@ async function loginAsync(email, password) {
     result.status = 404;
     return result;
   }
+  let hash = user.password;
+  user.password = undefined;
   result.user = user;
   console.log("User was found!");
 
 
   console.log("Verifying submitted password");
-  let isValid = bcrypt.compareSync(password, result.user.password);
+  let isValid = bcrypt.compareSync(password, hash);
   if (!isValid) {
     console.log("Invalid password");
     result.err = "Invalid password";
