@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.0" # Use version 3.0 for compatibility with Ubuntu
 services:
   backend:
     container_name: backend
