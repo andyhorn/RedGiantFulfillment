@@ -92,4 +92,8 @@ function makeLicenseDirectory(name) {
   }
 }
 
-module.exports = { exists, processLicenses, writeData, readData, deleteLicenseFiles };
+function createPath(fullPath) {
+  fs.mkdirSync(fullPath, { recursive:true });
+}
+
+module.exports = { createPath, exists, processLicenses, writeData, readData, deleteLicenseFiles };

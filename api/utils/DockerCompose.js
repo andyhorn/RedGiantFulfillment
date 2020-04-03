@@ -15,11 +15,14 @@ class DockerCompose {
   }
 
   init() {
+    if (!FileHandler.exists(COMPOSE_FILE)) FileHandler.createPath(FilePaths.appData);
+
     let data = {
       'version': '3',
       'services': null
     }
     let yamlData = yaml.stringify(data);
+
     if (!FileHandler.exists(COMPOSE_FILE)) FileHandler.writeData(yamlData, COMPOSE_FILE)
   }
 
