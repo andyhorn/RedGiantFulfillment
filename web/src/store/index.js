@@ -1,8 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import http from "../main";
 import http from "../../axios";
-// import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -41,8 +39,6 @@ export default new Vuex.Store({
                         console.log(response);
                         const token = response.data.token;
                         const user = response.data.user;
-
-                        localStorage.setItem('token', token);
 
                         http.defaults.headers.common['Authorization'] = token;
 

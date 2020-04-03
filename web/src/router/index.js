@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import New from "../views/New.vue";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
+import Error_403 from "../views/403";
 import store from "../store/index";
 
 Vue.use(VueRouter);
@@ -34,6 +35,11 @@ const routes = [
     path: "/register",
     name: "Register",
     component: Register
+  },
+  {
+    path: "/403",
+    name: "Error_403",
+    component: Error_403
   }
 ];
 

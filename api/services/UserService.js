@@ -4,7 +4,7 @@ const config = require("../contracts/config");
 const jwt = require('jsonwebtoken');
 
 const SALT_ROUNDS = 8;
-const TOKEN_EXPIRATION = "10s";
+const TOKEN_EXPIRATION = "10d";
 
 async function registerAsync(name, email, password) {
   let result = {

@@ -24,9 +24,8 @@ http.interceptors.response.use(null, err => {
   switch(status) {
     case 401: {
       // Unauthorized access
-      store.commit("auth_error", err.response.statusText);
       store.dispatch("logout");
-      router.push("/login");
+      router.push("/403");
     }
   }
 
