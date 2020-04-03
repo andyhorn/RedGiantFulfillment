@@ -1,5 +1,16 @@
-version: "3.0" # Use version 3.0 for compatibility with Ubuntu
+version: "3"
 services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./web
+      dockerfile: Dockerfile.prod
+    environment: 
+      NODE_ENV: "production"
+    ports:
+      - "80:80"
+    depends_on: 
+      - backend
   backend:
     container_name: backend
     build:
@@ -12,30 +23,16 @@ services:
       - "5000:5000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./api:/usr/src/app
-      - ./rlm:/usr/src/rlm
     depends_on: 
       - dbserver
-
-  frontend:
-    container_name: frontend
-    build:
-      context: ./web
-      dockerfile: Dockerfile.dev
-    environment:
-      VUE_APP_BACKEND_URL: http://localhost:5000
-    volumes:
-      - ./web:/app
-    ports:
-      - "80:8080"
-    depends_on:
-      - backend
-
   dbserver:
     container_name: dbserver
     image: mongo
-    ports: 
+    ports:
       - "27017:27017"
+    volumes:
+      - db_data:/data/db
 
 volumes:
   db_data:
+    
