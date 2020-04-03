@@ -2,6 +2,7 @@ const express = require("express");
 const FileHandler = require("../../utils/FileHandler");
 const DockerCompose = require("../../utils/DockerCompose");
 const DockerManager = require('../../utils/DockerManager');
+const { isAuthenticated } = require('../../services/Authenticator');
 
 const compose = new DockerCompose();
 
@@ -19,15 +20,11 @@ function filterAppContainers(containers) {
   })
 }
 
-app.get("/", async (req, res) => {
+app.get("/", isAuthenticated, async (req, res) => {
   console.log("Retrieving list of running containers");
   try {
     let containers = await DockerManager.getContainersAsync();
     containers = filterAppContainers(containers);
-    // containers = containers.filter(c => {
-    //     let label = c.Labels["com.docker.compose.service"];
-    //     return label !== "frontend" && label !== "backend";
-    // });
     res.send(JSON.stringify(containers));
   }
   catch (e) {
@@ -38,7 +35,7 @@ app.get("/", async (req, res) => {
 });
 
 app.post(
-  "/",
+  "/", isAuthenticated,
   upload.fields([{ name: "name" }, { name: "files" }]),
   async (req, res) => {
     console.log(req);
@@ -58,7 +55,7 @@ app.post(
   }
 );
 
-app.delete("/:id", async (req, res) => {
+app.delete("/:id", isAuthenticated, async (req, res) => {
     let id = req.params.id;
     console.log(`Received delete request for id ${id}`);
 
