@@ -35,8 +35,9 @@ export default new Vuex.Store({
         login({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request');
-                http({ url: '/auth/login', data: user, method: 'POST' })
+                http({ url: 'api/auth/login', data: user, method: 'POST' })
                     .then(response => {
+                        console.log(response);
                         const token = response.data.token;
                         const user = response.data.user;
 

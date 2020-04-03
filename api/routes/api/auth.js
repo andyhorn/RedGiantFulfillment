@@ -3,15 +3,19 @@ const router = express.Router();
 const userService = require("../../services/UserService");
 
 router.post("/login", async (req, res) => {
+  console.log("Login request received");
   let email = req.body.email;
   let password = req.body.password;
 
+  console.log("Beginning login...")
   let result = await userService.loginAsync(email, password);
 
   if (result.err) {
+    console.log("Login failed");
     return res.status(result.status).send(result.err);
   }
 
+  console.log("Login success!");
   return sendSuccess(res, result.token, result.user);
 });
 

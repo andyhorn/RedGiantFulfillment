@@ -53,6 +53,7 @@ async function loginAsync(email, password) {
     token: null
   };
 
+  console.log("Searching for user by email...");
   let user = await getByEmail(email);
   if (!user) {
     console.log("User not found");
@@ -60,19 +61,26 @@ async function loginAsync(email, password) {
     result.status = 404;
     return result;
   }
+  result.user = user;
+  console.log("User was found!");
 
+
+  console.log("Verifying submitted password");
   let isValid = bcrypt.compareSync(password, result.user.password);
   if (!isValid) {
+    console.log("Invalid password");
     result.err = "Invalid password";
     result.status = 401;
     return result;
   }
+  console.log("Valid password!");
 
+  console.log("Generating authentication token");
   let token = getToken(user);
   result.status = 200;
   result.token = token;
 
-  return token;
+  return result;
 }
 
 function getToken(user) {
@@ -87,6 +95,7 @@ async function getByEmail(email) {
     let user = await db.selectByEmailAsync(email);
     return user;
   } catch (e) {
+    console.log(e);
     return null;
   }
 }
