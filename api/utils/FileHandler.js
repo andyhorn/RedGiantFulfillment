@@ -28,6 +28,10 @@ function processLicenses(fileList, name) {
   console.log("Done!");
 }
 
+function exists(filepath) {
+  return fs.existsSync(filepath);
+}
+
 function writeData(data, filename) {
   fs.writeFileSync(filename, data, "utf-8");
 }
@@ -88,4 +92,4 @@ function makeLicenseDirectory(name) {
   }
 }
 
-module.exports = { processLicenses, writeData, readData, deleteLicenseFiles };
+module.exports = { exists, processLicenses, writeData, readData, deleteLicenseFiles };

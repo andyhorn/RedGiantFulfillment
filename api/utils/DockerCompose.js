@@ -10,7 +10,17 @@ const COMPOSE_FILE = path.join(FilePaths.appData, "docker-compose.yml");
 
 class DockerCompose {
   constructor() {
+    this.init();
     this.read();
+  }
+
+  init() {
+    let data = {
+      'version': '3',
+      'services': null
+    }
+    let yamlData = yaml.stringify(data);
+    if (!FileHandler.exists(COMPOSE_FILE)) FileHandler.writeData(yamlData, COMPOSE_FILE)
   }
 
   read() {
