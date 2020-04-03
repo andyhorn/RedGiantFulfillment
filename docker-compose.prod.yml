@@ -1,6 +1,6 @@
 version: "3"
 services:
-  web:
+  frontend:
     build:
       context: ./web
       dockerfile: Dockerfile.prod
@@ -9,3 +9,7 @@ services:
         NODE_ENV: "production"
       ports:
         - "80:80"
+  backend:
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    
