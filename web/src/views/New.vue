@@ -28,11 +28,11 @@
             >License Files
             <b-icon-question-circle
               font-scale="0.8"
-              id="server-question"
+              id="license-question"
               class="ml-1"
             ></b-icon-question-circle>
             <b-popover
-              target="server-question"
+              target="license-question"
               triggers="hover"
               placement="right"
             >
