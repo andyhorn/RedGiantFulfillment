@@ -1,18 +1,28 @@
+# For development, make some configuration changes, including:
 version: "3"
 services:
+  # Node.js backend REST API
   backend:
+    # Mount additional volumes to give access to local project files
     volumes:
       - ./api:/usr/src/app
       - ./rlm:/usr/src/rlm
+    environment: 
+      # Set the Node environment
+      NODE_ENV: "dev"
 
+  # Vue.js frontend SPA
   frontend:
     container_name: frontend
     build:
+      # Use the development Dockerfile for the frontend
       context: ./web
       dockerfile: Dockerfile.dev
     environment:
+      # Give the backend URL
       VUE_APP_BACKEND_URL: http://localhost:5000
+      # Set the Node environment
+      NODE_ENV: "dev"
     volumes:
+      # Mount the local directory
       - ./web:/app
-    ports:
-      - "80:8080"

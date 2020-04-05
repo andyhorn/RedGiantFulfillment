@@ -1,7 +1,10 @@
 {
   "name": "web",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "The front-end Vue.js application for the Red Giant RLM Manager",
   "private": true,
+  "author": "Andy Horn",
+  "repository": "https://github.com/andyhorn/RedGiantFulfillment",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
