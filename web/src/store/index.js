@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import http from "../../axios";
+import http from "../axios";
 
 Vue.use(Vuex);
 

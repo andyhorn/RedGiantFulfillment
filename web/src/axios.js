@@ -1,6 +1,6 @@
 const axios = require("axios");
-import router from "./src/router/index";
-import store from "./src/store/index";
+import router from "./router/index";
+import store from "./store/index";
 
 var http;
 if (process.env.NODE_ENV !== "production") {
