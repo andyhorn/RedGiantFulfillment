@@ -1,6 +1,8 @@
 <template>
   <div class="container text-left">
-    <h2>Launch new server</h2>
+    <div class="d-flex align-items-top">
+      <h2>Launch new server</h2>
+    </div>
     <b-form @submit="submit">
       <b-form-group
         id="name"
@@ -18,10 +20,30 @@
 
       <b-form-group
         id="files"
-        label="License files"
         label-for="license_files"
         description="Red Giant license (.lic) files"
       >
+        <div class="d-flex">
+          <slot :name="label"
+            >License Files
+            <b-icon-question-circle
+              font-scale="0.8"
+              id="server-question"
+              class="ml-1"
+            ></b-icon-question-circle>
+            <b-popover
+              target="server-question"
+              triggers="hover"
+              placement="right"
+            >
+              <h6>Server Licenses</h6>
+              <p><strong>Hostname</strong><br />The hostname can be anything, 
+              but will work best when it matches the Customer Name</p>
+              <p><strong>MAC Address</strong><br />The MAC address should be
+              set to <code>12:34:56:78:90:AB</code></p>
+            </b-popover>
+          </slot>
+        </div>
         <b-form-file
           v-model="files"
           :state="Boolean(files.length)"
@@ -33,9 +55,17 @@
           :file-name-formatter="formatNames"
         ></b-form-file>
       </b-form-group>
+
       <div class="d-flex align-items-center">
-        <b-button :disabled="working" variant="outline-success" type="submit">Submit</b-button>
-        <b-icon-gear class="mx-2" v-if="working" animation="spin" font-scale="2"></b-icon-gear>
+        <b-button :disabled="working" variant="outline-success" type="submit"
+          >Submit</b-button
+        >
+        <b-icon-gear
+          class="mx-2"
+          v-if="working"
+          animation="spin"
+          font-scale="2"
+        ></b-icon-gear>
       </div>
     </b-form>
     <div v-if="error">
@@ -54,13 +84,13 @@ export default {
       files: [],
       name: null,
       working: false,
-      error: null
+      error: null,
     };
   },
   watch: {
     name(text) {
       this.name = text.replace(" ", "_");
-    }
+    },
   },
   methods: {
     makeFormData() {
@@ -85,12 +115,11 @@ export default {
       let vm = this;
       this.$http
         .post("api/docker", formData)
-        .then(response => {
+        .then((response) => {
           console.log(response);
           this.$router.push({ name: "Home" });
         })
-        .catch(err => {
-          
+        .catch((err) => {
           console.log(err);
           vm.error = err;
         })
@@ -104,7 +133,7 @@ export default {
       } else {
         return `${this.files[0].name} + ${this.files.length - 1} more`;
       }
-    }
-  }
+    },
+  },
 };
 </script>
