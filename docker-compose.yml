@@ -13,10 +13,11 @@ services:
       NODE_ENV: "production"
     ports:
       # Pull the web port mapping from the shell environment
-      # During production, this will be "80:80"
-      # During development, this will be "80:8080"
+      # with a default mapping of 80 --> 80.
+      # During production, this should be "80:80" - so leave default
+      # During development, this should be "80:8080" - specify when launching
       # Example: WEB_PORT=80:8080 docker-compose ...
-      - ${WEB_PORT}
+      - ${WEB_PORT:-80:80}
     depends_on: 
       - backend
 
