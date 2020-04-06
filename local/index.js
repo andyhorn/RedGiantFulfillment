@@ -1,6 +1,8 @@
 const os = require('os');
 const express = require('express');
 const app = express();
+const dotenv = require('dotenv');
+dotenv.configure();
 
 const FirewallService = require('./FirewallService');
 
@@ -29,6 +31,7 @@ app.get("/port/:port/close", async (req, res) => {
     res.send(`Port closed: ${closed}`);
 });
 
-app.listen("5001", () => {
+let port = process.env.PORT;
+app.listen(port, () => {
     console.log(`listening...`);
 });
