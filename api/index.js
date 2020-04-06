@@ -21,19 +21,19 @@ app.use((req, res, next) => {
 console.log("listening to port " + process.env.PORT);
 app.listen(process.env.PORT || 8000);
 
-const HostService = require('./services/HostService');
-const host = new HostService();
+// const HostService = require('./services/HostService');
+// const host = new HostService();
 
-async function testHost() {
-  let platform = await host.getHostPlatformAsync();
-  let open = await host.openFirewallPortAsync(5005);
-  let close = await host.closeFirewallPortAsync(5005);
+// async function testHost() {
+//   let platform = await host.getHostPlatformAsync();
+//   let open = await host.openFirewallPortAsync(5005);
+//   let close = await host.closeFirewallPortAsync(5005);
 
-  console.log(platform);
-  console.log(open);
-  console.log(close);
-}
+//   console.log(platform);
+//   console.log(open);
+//   console.log(close);
+// }
 
-testHost();
+// testHost();
 
 module.exports = app;

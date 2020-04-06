@@ -4,6 +4,7 @@ const FilePaths = require('../contracts/FilePaths');
 const FileHandler = require('./FileHandler');
 const path = require('path');
 const fs = require('fs');
+const HostService = require('../services/HostService');
 
 const compose = new DockerCompose();
 
@@ -80,6 +81,14 @@ async function restart(name) {
     return restarted;
 }
 
+async function openPorts(ports) {
+    const host = new HostService();
+
+    for (let port of ports) {
+        await host.openFirewallPortAsync(port);
+    }
+}
+
 module.exports = async function(name, files) {
     console.log("Files posted, processing...");
 
@@ -109,6 +118,10 @@ module.exports = async function(name, files) {
     if (!await restart(name)) {
         return false;
     }
+
+    // Open the firewall ports
+    let ports = compose.getService(name).ports.map(port => port.split(":")[0]);
+    await openPorts(ports);
 
     return true;
 }
