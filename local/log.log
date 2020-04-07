@@ -1,0 +1,19 @@
+listening on port 4999
+5001
+Set Windows firewall
+Executing command: netsh advfirewall firewall add rule protocol=tcp name="Open Docker Port" dir=in localport=5001 action=allow
+Ok.
+
+
+5002
+Set Windows firewall
+Executing command: netsh advfirewall firewall add rule protocol=tcp name="Open Docker Port" dir=in localport=5002 action=allow
+Ok.
+
+
+5003
+Set Windows firewall
+Executing command: netsh advfirewall firewall add rule protocol=tcp name="Open Docker Port" dir=in localport=5003 action=allow
+Ok.
+
+

@@ -1,8 +1,10 @@
 const os = require('os');
 const express = require('express');
 const app = express();
-const dotenv = require('dotenv');
-dotenv.configure();
+const pathModule = require('path');
+require('dotenv').config({
+    path: "./local/.env"
+});
 
 const FirewallService = require('./FirewallService');
 
@@ -33,5 +35,5 @@ app.get("/port/:port/close", async (req, res) => {
 
 let port = process.env.PORT;
 app.listen(port, () => {
-    console.log(`listening...`);
+    console.log(`listening on port ${port}`);
 });
