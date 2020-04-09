@@ -10,7 +10,7 @@ sudo echo
 
 # Launch the host-side listener
 echo Launching host listener...
-sudo node ./local/index.js &
+sudo node ./local/index.js & ./local/listen.log
 echo Done!
 
 # Launch the Docker containers

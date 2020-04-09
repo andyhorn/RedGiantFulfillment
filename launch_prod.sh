@@ -7,10 +7,10 @@ sudo echo
 
 # Launch the host-side listener
 echo Launching host listener...
-sudo node ./local/index.js &
+sudo node ./local/index.js & > ./local/listen.log
 echo Done!
 
 # Launch the Docker containers
 echo Launching app...
-docker-compose up -d --build
+docker-compose -f docker-compose.yml up -d --build
 echo Done!
