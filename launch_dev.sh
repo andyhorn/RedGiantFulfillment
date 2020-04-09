@@ -10,7 +10,7 @@ sudo echo
 
 # Run the setup script to ensure all dependencies are installed on the local system
 echo Installing dependencies...
-sudo ./setup.sh > ./setup_log.log
+sudo ./dev_setup.sh > setup_log.log
 echo Done!
 
 # Launch the host-side listener
