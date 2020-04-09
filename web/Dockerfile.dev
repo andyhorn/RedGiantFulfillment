@@ -4,9 +4,6 @@ FROM node:lts-alpine
 # Set the working directory
 WORKDIR /app
 
-# Install the Vue CLI service
-RUN npm install -g @vue/cli
-
 # Copy the package files
 COPY package*.json ./
 
@@ -15,9 +12,6 @@ RUN npm install
 
 # Copy the application files
 COPY . .
-
-# Expose the application port
-# EXPOSE 8080
 
 # Run the server
 CMD ["npm", "run", "serve"]
