@@ -6,6 +6,7 @@ sudo echo
 
 # Install Node.js and NPM if missing
 sudo apt-get install -y nodejs npm
+sudo npm install -g npm@latest
 
 # Install the API dependencies
 cd ./api
