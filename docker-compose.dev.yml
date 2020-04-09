@@ -3,6 +3,7 @@ version: "3"
 services:
   # Node.js backend REST API
   backend:
+    container_name: backend_dev
     # Mount additional volumes to give access to local project files
     volumes:
       - ./api:/usr/src/app
@@ -13,7 +14,7 @@ services:
 
   # Vue.js frontend SPA
   frontend:
-    container_name: frontend
+    container_name: frontend_dev
     build:
       # Use the development Dockerfile for the frontend
       context: ./web
