@@ -67,6 +67,7 @@ async function loginAsync(email, password) {
   user.password = undefined;
   result.user = user;
   console.log("User was found!");
+  console.log(user);
 
 
   console.log("Verifying submitted password");
@@ -80,15 +81,60 @@ async function loginAsync(email, password) {
   console.log("Valid password!");
 
   console.log("Generating authentication token");
-  let token = getToken(user);
+  let token = getToken(user._id);
   result.status = 200;
   result.token = token;
 
   return result;
 }
 
-function getToken(user) {
-  return jwt.sign({ id: user.id }, config.secret, {
+async function getIdFromTokenAsync(token) {
+  console.log("Validating token...");
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, config.secret, (err, decoded) => {
+      if (err) {
+        console.log("Error validating token");
+        console.log(err);
+        return reject(err);
+      }
+
+      console.log("Decoded token:")
+      console.log(decoded);
+      let id = decoded.id;
+      resolve(id);
+    });
+  });
+}
+
+async function getByIdAsync(id) {
+  let db = new Db();
+  try {
+    let user = await db.selectByIdAsync(id);
+    return user;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function getUserFromTokenAsync(token) {
+  let id, user;
+  console.log(`Retrieving user from token.`);
+  try {
+    id = await getIdFromTokenAsync(token);
+    console.log(`ID: ${id}`);
+  } catch (e) {
+    return null;
+  }
+
+  console.log("Finding user...")
+  user = await getByIdAsync(id);
+  console.log(user);
+  return user;
+}
+
+function getToken(id) {
+  console.log(`Generating token with user id: ${id}`);
+  return jwt.sign({ id: id }, config.secret, {
     expiresIn: TOKEN_EXPIRATION
   });
 }
@@ -111,7 +157,7 @@ async function insertUser(user) {
   try {
     added = await db.insertAsync(user.name, user.email, hash);
   } catch (e) {
-    console.log("Error inserting user - error caught")
+    console.log("Error inserting user")
     return false;
   }
 
@@ -120,5 +166,8 @@ async function insertUser(user) {
 
 module.exports = {
   registerAsync,
-  loginAsync
+  loginAsync,
+  getIdFromTokenAsync,
+  getByIdAsync,
+  getUserFromTokenAsync
 };

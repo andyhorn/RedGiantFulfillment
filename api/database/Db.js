@@ -60,6 +60,24 @@ class Db {
     });
   }
 
+  async selectByIdAsync(id) {
+    try {
+      await this.openConnection();
+    } catch (e) {
+      return false;
+    }
+
+    return new Promise((resolve, reject) => {
+      this.user.findById(id, (err, result) => {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve(result);
+      });
+    });
+  }
+
   async insertAsync(name, email, password) {
     console.log("Inserting user data:");
     console.log(`Email: ${email}`);

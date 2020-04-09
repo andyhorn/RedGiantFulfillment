@@ -15,10 +15,13 @@ export default new Vuex.Store({
         auth_request(state) {
             state.status = 'loading';
         },
-        auth_success(state, token, user) {
+        auth_success(state, payload) {
+            console.log("auth_success")
+            console.log(payload.token)
+            console.log(payload.user)
             state.status = 'success';
-            state.token = token;
-            state.user = user;
+            state.token = payload.token;
+            state.user = payload.user;
         },
         auth_error(state, err) {
             state.status = 'error';
@@ -42,7 +45,7 @@ export default new Vuex.Store({
 
                         http.defaults.headers.common['Authorization'] = token;
 
-                        commit('auth_success', token, user);
+                        commit('auth_success', { token, user });
                         resolve(response);
                     })
                     .catch(err => {
@@ -67,7 +70,7 @@ export default new Vuex.Store({
                         localStorage.setItem('token', token);
                         http.defaults.headers.common['Authorization'] = token;
 
-                        commit('auth_success', token, user);
+                        commit('auth_success', { token, user });
                         resolve(response);
                     })
                     .catch(err => {
@@ -84,10 +87,38 @@ export default new Vuex.Store({
                 delete http.defaults.headers.common['Authorization'];
                 resolve();
             });
+        },
+        loginWithToken({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                commit('auth_request');
+                // let token = localStorage.getItem("token");
+                let token = state.token;
+                // if (token) {
+                    http.post('api/auth/refresh', {
+                        token
+                    })
+                    .then(response => {
+                        console.log(response.data);
+                        commit('auth_success', { token, user: response.data });
+                        console.log("Logged in with token");
+                        console.log("Response:")
+                        console.log(response);
+                        console.log("User:")
+                        console.log(response.data);
+
+                        return resolve();
+                    })
+                    .catch(err => {
+                        commit('auth_error', err);
+                        return reject(err);
+                    });
+                // }
+            })
         }
     },
     getters: {
         isLoggedIn: state => !!state.token,
-        authStatus: state => state.status
+        authStatus: state => state.status,
+        currentUser: state => !!state.user ? state.user : null
     }
 })

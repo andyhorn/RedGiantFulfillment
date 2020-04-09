@@ -2,6 +2,7 @@
   <div id="app">
     <div id="nav">
       <div v-if="isLoggedIn">
+        <p v-if="userName != null">Welcome, {{ userName }}</p>
         <router-link to="/">Home</router-link> | 
         <router-link to="/new">New</router-link> | 
         <span v-if="isLoggedIn"><a href="#" @click="logout">Logout</a></span>
@@ -29,7 +30,24 @@ export default {
         .then(() => {
           this.$router.push("/login");
         });
+    },
+    async getUsername() {
+      if (this.$store.getters.currentUser === null) {
+        await this.$store.dispatch("loginWithToken");
+      }
+      
+      let user = this.$store.getters.currentUser;
+      console.log(user);
+      this.userName = user.name;
     }
+  },
+  data() {
+    return {
+      userName: null
+    }
+  },
+  mounted() {
+    this.getUsername();  
   }
 }
 </script>

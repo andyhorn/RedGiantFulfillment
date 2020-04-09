@@ -42,6 +42,20 @@ router.post("/register", async (req, res) => {
   return sendSuccess(res, result.token, result.user);
 });
 
+router.post("/refresh", async (req, res) => {
+  let token = req.body.token;
+  console.log(req.body);
+  console.log(`Validating token: ${token}`);
+
+  let result = await userService.getUserFromTokenAsync(token);
+  console.log("Result:");
+  console.log(result);
+
+  result.password = undefined;
+
+  res.send(result);
+})
+
 function sendSuccess(res, token, user) {
   return res.status(200).send({ auth: true, token: token, user: user });
 }
