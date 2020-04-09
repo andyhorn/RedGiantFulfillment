@@ -15,10 +15,10 @@
             </div>
             <div class="form-group">
                 <label for="confirm-password">Confirm Password</label>
-                <input id="confirm-password" type="password" v-model="confirm_password" required class="form-control" />
+                <input id="confirm-password" :class="{'invalid': !valid }" class="form-control" type="password" v-model="confirm_password" required />
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-success">Register</button>
+                <button type="submit" class="btn btn-success" :disabled="!valid">Register</button>
             </div>
         </form>
     </div>
@@ -33,6 +33,11 @@ export default {
             email: "",
             password: "",
             confirm_password: ""
+        }
+    },
+    computed: {
+        valid() {
+            return this.password == this.confirm_password;
         }
     },
     methods: {
@@ -50,3 +55,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.invalid {
+    border: 1px solid red !important;
+
+}
+</style>
