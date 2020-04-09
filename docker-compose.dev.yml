@@ -26,4 +26,4 @@ services:
       NODE_ENV: "dev"
     volumes:
       # Mount the local directory
-      - ./web:/app
+      - ./web/src:/app/src

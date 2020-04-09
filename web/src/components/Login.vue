@@ -34,7 +34,8 @@
 
         <b-form-group class="mt-2">
             <b-button type="submit" class="m-1" variant="success">Login</b-button>
-            <b-button type="reset" class="m-1" variant="primary">Clear</b-button>
+            <b-button @click="reset" class="m-1" variant="primary">Clear</b-button>
+            <p v-if="error_message" class="m-1 text-danger">Error: {{ error_message }}</p>
         </b-form-group>
     </b-form>
   </div>
@@ -47,17 +48,25 @@ export default {
     return {
       email: "",
       password: "",
-      remember_me: false
+      remember_me: false,
+      error_message: null
     };
   },
   mounted() {
     this.error = this.$store.state.error;
   },
   methods: {
+    reset() {
+      this.email = "";
+      this.password = "";
+      this.error_message = null;
+    },
     login() {
+      this.error_message = null;
       let email = this.email;
       let password = this.password;
       let remember = this.remember_me;
+      let vm = this;
 
       this.$store
         .dispatch("login", { email, password })
@@ -67,7 +76,15 @@ export default {
             }
             this.$router.push("/")
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          if (err.response) {
+            let data = err.response.data;
+            vm.error_message = data;
+          } else {
+            vm.error_message = "Unable to login, check your email and password and try again.";
+          }
+          vm.password = "";
+        });
     }
   }
 };
